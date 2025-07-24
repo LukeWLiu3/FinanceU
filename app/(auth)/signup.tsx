@@ -1,5 +1,6 @@
 import { supabase } from "@/utils/supabase";
 import { useAuthStore } from "@/utils/useAuth";
+import { router } from "expo-router";
 import React from "react";
 import {
   KeyboardAvoidingView,
@@ -13,7 +14,7 @@ import {
 const Signup = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const {logIn} = useAuthStore();
+  const { logIn } = useAuthStore();
 
   console.log("User info:", email, password);
 
@@ -34,7 +35,7 @@ const Signup = () => {
         console.log("data is:", data);
       }
 
-      if(data.user && data.session) {
+      if (data.user && data.session) {
         console.log("data sent to supabase:", data.user, data.session);
         logIn(data.user, data.session);
       }
@@ -79,6 +80,12 @@ const Signup = () => {
               Sign Up
             </Text>
           </Pressable>
+          <Text className="mt-10">
+            Already have an
+            <Pressable onPress={() => router.push("/(auth)/login")}>
+              <Text className="text-blue-600"> account</Text>
+            </Pressable>
+          </Text>
         </View>
       </View>
     </KeyboardAvoidingView>

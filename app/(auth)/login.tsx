@@ -1,49 +1,97 @@
 import { supabase } from "@/utils/supabase";
+import { useAuthStore } from "@/utils/useAuth";
+import { router } from "expo-router";
 import React from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
-const login = () => {
+const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const { logIn } = useAuthStore();
 
   const onLogin = async () => {
-    console.log("Email:", email, "Password:", password);
-    const { error, data } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      console.error("Login error:", error);
+    if (!email || !password) {
+      alert("Please fill in all fields");
+      return;
     }
-    if (data) {
-      console.log("data is:", data);
-      console.log("User is", data.user);
-        console.log("Session is", data.session);  
+    try {
+      const { error, data } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        console.error("Login error:", error);
+        alert(error.message);
+      }
+      if (data) {
+        console.log("data is:", data);
+        console.log("User is", data.user);
+        console.log("Session is", data.session);
+      }
+      if (data.user && data.session) {
+        console.log("data sent to supabase:", data.user, data.session);
+        logIn(data.user, data.session);
+      }
+    } catch (error) {
+      alert("There is an error");
+      console.log("Error from login page:", error);
     }
   };
 
   return (
-    <View>
-      <Text>Email:</Text>
-      <TextInput
-        className="bg-gray-200 p-2 rounded"
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Enter your email"
-        keyboardType="email-address"
-      />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      style={{ flex: 1 }}
+    >
+      <View className="flex-1 justify-center items-center bg-white px-6">
+        <View className="w-full max-w-md rounded-xl p-8">
+          <Text className="text-2xl font-bold text-center mb-6 text-blue-600">
+            Welcome Back!
+          </Text>
 
-      <Text>Password:</Text>
-      <TextInput
-        className="bg-gray-200 p-2 rounded"
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Enter your password"
-      />
-      <Pressable className="bg-blue-500 p-4 rounded mt-4" onPress={onLogin} />
-    </View>
+          <Text className="text-base mb-2 text-gray-700">Email</Text>
+          <TextInput
+            className="bg-white border border-gray-300 p-3 rounded-lg mb-4 text-base"
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Enter your email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+
+          <Text className="text-base mb-2 text-gray-700">Password</Text>
+          <TextInput
+            className="bg-white border border-gray-300 p-3 rounded-lg mb-6 text-base"
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Enter your password"
+            secureTextEntry
+            autoCapitalize="none"
+          />
+
+          <Pressable className="bg-blue-600 py-3 rounded-lg" onPress={onLogin}>
+            <Text className="text-white text-center font-semibold text-lg">
+              Login
+            </Text>
+          </Pressable>
+          <Text className="mt-10 text-center">
+            Don't have an account?
+            <Pressable onPress={() => router.push("/(auth)/signup")}>
+              <Text className="text-blue-600"> Sign Up</Text>
+            </Pressable>
+          </Text>
+        </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
-export default login;
+export default Login;
