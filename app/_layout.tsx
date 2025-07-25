@@ -10,6 +10,7 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useAuthStore } from "@/utils/useAuth";
+import { useEffect } from "react";
 import "./global.css";
 
 export default function RootLayout() {
@@ -17,9 +18,14 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
+  const { isLoggedIn, hasCompletedProfile, checkSession } = useAuthStore();
 
-  const { isLoggedIn } = useAuthStore();
   console.log("isLoggedIn:", isLoggedIn);
+  console.log("hasCompletedProfile:", hasCompletedProfile);
+
+  useEffect(() => {
+    checkSession();
+  }, [checkSession]);
 
   if (!loaded) {
     // Async font loading only occurs in development.
@@ -33,6 +39,14 @@ export default function RootLayout() {
           <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)/login" options={{ headerShown: false }} />
         </Stack.Protected>
+
+        <Stack.Protected guard={isLoggedIn && !hasCompletedProfile}>
+          <Stack.Screen
+            name="(onboarding)/page"
+            options={{ headerShown: false }}
+          />
+        </Stack.Protected>
+
         <Stack.Protected guard={isLoggedIn}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />

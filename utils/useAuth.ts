@@ -159,7 +159,7 @@ export const useAuthStore = create(
         if (!user?.id) return false;
 
         try {
-          const { error } = await supabase.from("profile").upsert({
+          const { error } = await supabase.from("Profiles").upsert({
             user_id: user.id,
             full_name: profileData.full_name,
             email: profileData.email || user.email,
