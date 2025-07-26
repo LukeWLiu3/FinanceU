@@ -51,7 +51,7 @@ const Signup = () => {
     >
       <View className="flex-1 justify-center items-center bg-white px-6">
         <View className="w-full max-w-md rounded-xl p-8">
-          <Text className="text-2xl font-bold text-center mb-6 text-blue-600">
+          <Text className="text-2xl font-bold text-center mb-6 text-green-600">
             Create Account
           </Text>
 
@@ -75,7 +75,10 @@ const Signup = () => {
             autoCapitalize="none"
           />
 
-          <Pressable className="bg-blue-600 py-3 rounded-lg" onPress={onSignup}>
+          <Pressable
+            className="bg-green-600 py-3 rounded-lg"
+            onPress={onSignup}
+          >
             <Text className="text-white text-center font-semibold text-lg">
               Sign Up
             </Text>
@@ -83,7 +86,7 @@ const Signup = () => {
           <Text className="mt-10">
             Already have an
             <Pressable onPress={() => router.push("/(auth)/login")}>
-              <Text className="text-blue-600"> account</Text>
+              <Text className="text-green-600"> account</Text>
             </Pressable>
           </Text>
         </View>

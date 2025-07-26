@@ -53,7 +53,7 @@ const Login = () => {
     >
       <View className="flex-1 justify-center items-center bg-white px-6">
         <View className="w-full max-w-md rounded-xl p-8">
-          <Text className="text-2xl font-bold text-center mb-6 text-blue-600">
+          <Text className="text-2xl font-bold text-center mb-6 text-green-600">
             Welcome Back!
           </Text>
 
@@ -77,7 +77,7 @@ const Login = () => {
             autoCapitalize="none"
           />
 
-          <Pressable className="bg-blue-600 py-3 rounded-lg" onPress={onLogin}>
+          <Pressable className="bg-green-600 py-3 rounded-lg" onPress={onLogin}>
             <Text className="text-white text-center font-semibold text-lg">
               Login
             </Text>
@@ -85,7 +85,7 @@ const Login = () => {
           <Text className="mt-10 text-center">
             Don't have an account?
             <Pressable onPress={() => router.push("/(auth)/signup")}>
-              <Text className="text-blue-600"> Sign Up</Text>
+              <Text className="text-green-600"> Sign Up</Text>
             </Pressable>
           </Text>
         </View>

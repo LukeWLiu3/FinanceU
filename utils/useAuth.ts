@@ -130,7 +130,7 @@ export const useAuthStore = create(
 
         try {
           const { data, error } = await supabase
-            .from("profile")
+            .from("Profiles")
             .select("full_name, monthly_budget")
             .eq("user_id", user.id)
             .single();
@@ -195,7 +195,7 @@ export const useAuthStore = create(
 
         try {
           const { data, error } = await supabase
-            .from("profile")
+            .from("Profiles")
             .select("*")
             .eq("user_id", user.id)
             .single();

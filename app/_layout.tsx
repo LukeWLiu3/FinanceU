@@ -47,7 +47,7 @@ export default function RootLayout() {
           />
         </Stack.Protected>
 
-        <Stack.Protected guard={isLoggedIn}>
+        <Stack.Protected guard={isLoggedIn && hasCompletedProfile}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack.Protected>
