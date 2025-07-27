@@ -61,7 +61,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="ai"
         options={{
-          title: "ai",
+          title: "AI Chat",
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="robot" size={24} color={color} />
           ),
