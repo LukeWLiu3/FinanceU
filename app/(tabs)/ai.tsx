@@ -21,7 +21,7 @@ interface Message {
 }
 
 export default function AskAIScreen() {
-  const gemini = new Gemini("api-key");
+  const gemini = new Gemini("AIzaSyA8h3qu-Fg8NKB-3JTYNbxXw2IJMwFcCpo");
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -174,7 +174,7 @@ export default function AskAIScreen() {
           </ScrollView>
 
           {/* Input Area */}
-          <View className="bg-white px-4 py-3 border-t border-gray-200">
+          <View className="bg-white px-4 py-3 border-t border-gray-200 mb-16">
             <View className="flex-row items-end gap-2">
               <TextInput
                 className="flex-1 border border-gray-300 rounded-full px-4 py-3 text-base bg-gray-50 max-h-32"
