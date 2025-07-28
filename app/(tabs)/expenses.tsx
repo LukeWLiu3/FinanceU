@@ -3,7 +3,7 @@ import { useAuthStore } from "@/utils/useAuth";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import Feather from "@expo/vector-icons/Feather";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Alert,
   FlatList,
@@ -388,7 +388,7 @@ const Expenses = () => {
 
           {/* Floating Add Button */}
           <Pressable
-            className="absolute bottom-8 right-6 w-16 h-16 bg-green-600 rounded-full justify-center items-center active:bg-green-700"
+            className="absolute bottom-28 right-6 w-16 h-16 bg-green-600 rounded-full justify-center items-center active:bg-green-700"
             style={{
               elevation: 8,
               shadowColor: "#000",

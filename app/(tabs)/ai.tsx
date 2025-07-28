@@ -28,7 +28,7 @@ export default function AskAIScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
 
-  const SYSTEM_PROMPT = `You are financialU, a financial assistant helping with personal finance, budgeting, and investment advice. Stay focused on financial topics only.`;
+  const SYSTEM_PROMPT = `You are financeU, a financial assistant helping with personal finance, budgeting, and investment advice. Stay focused on financial topics only.`;
 
   const handleSend = async () => {
     if (!message.trim()) return;
@@ -76,7 +76,7 @@ export default function AskAIScreen() {
   useEffect(() => {
     setMessages([
       {
-        text: "Hello! I'm financialU, your personal finance assistant. How can I help you with your financial goals today?",
+        text: "Hello! I'm financeU, your personal finance assistant. How can I help you with your financial goals today?",
         isUser: false,
       },
     ]);
@@ -96,7 +96,7 @@ export default function AskAIScreen() {
             </View>
             <View>
               <Text className="text-xl font-bold text-gray-800">
-                financialU
+                FinanceU
               </Text>
               <Text className="text-sm text-gray-500">Financial Assistant</Text>
             </View>

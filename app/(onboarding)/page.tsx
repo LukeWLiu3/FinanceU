@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/utils/useAuth";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -46,7 +46,7 @@ const Onboarding = () => {
       <View className="flex-1 justify-center items-center bg-white px-6">
         <View className="w-full max-w-md rounded-xl p-8">
           <Text className="text-2xl font-bold text-center mb-6 text-green-600">
-            Onboarding
+            Tell us more!
           </Text>
 
           <Text className="text-base mb-2 text-gray-700">Full Name</Text>
