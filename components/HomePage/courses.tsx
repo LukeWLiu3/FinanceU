@@ -16,7 +16,7 @@ const CoursePreview = () => {
   return (
     <View className="px-6 mt-6">
       <Text className="text-xl font-bold mb-4">Continue Learning</Text>
-      <View className="flex-row space-x-4">
+      <View className="flex-row space-x-4 gap-2">
         {demoCourses.map((course, idx) => (
           <View key={idx} className="flex-1 bg-green-200 rounded-xl overflow-hidden">
             <Image
@@ -26,9 +26,7 @@ const CoursePreview = () => {
             />
             <View className="p-3">
               <Text className="font-semibold text-sm text-black">{course.title}</Text>
-              <View className="h-2 bg-white mt-2 rounded-full">
-                <View style={{ width: idx === 0 ? "67%" : "23%" }} className="bg-green-600 h-2 rounded-full" />
-              </View>
+             
             </View>
           </View>
         ))}

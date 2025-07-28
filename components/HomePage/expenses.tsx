@@ -1,11 +1,13 @@
 import { supabase } from "@/utils/supabase";
 import { useAuthStore } from "@/utils/useAuth";
+import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
 const BudgetProgress = () => {
   const { user, profile } = useAuthStore();
   const [total, setTotal] = useState(0);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -19,8 +21,8 @@ const BudgetProgress = () => {
         setTotal(sum);
       }
     };
-    fetchExpenses();
-  }, [user?.id]);
+    if (isFocused) fetchExpenses();
+  }, [user?.id, isFocused]);
 
   const budget = profile?.monthly_budget || 0;
   const percentage = budget > 0 ? Math.min((total / budget) * 100, 100) : 0;
