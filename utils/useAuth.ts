@@ -70,6 +70,7 @@ export const useAuthStore = create(
         set({ user, session, isLoggedIn: true });
         // Set the session in Supabase client
         supabase.auth.setSession(session);
+        get().checkProfileCompletion();
       },
       logOut: async () => {
         await supabase.auth.signOut();
