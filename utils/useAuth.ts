@@ -57,7 +57,6 @@ const customStorage = {
   },
 };
 
-
 export const useAuthStore = create(
   persist<AuthState>(
     (set, get) => ({
