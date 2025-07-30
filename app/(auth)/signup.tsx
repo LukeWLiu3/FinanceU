@@ -16,11 +16,10 @@ const Signup = () => {
   const [password, setPassword] = React.useState("");
   const { logIn } = useAuthStore();
 
-  console.log("User info:", email, password);
-
   const onSignup = async () => {
     if (!email || !password) {
       alert("Please fill in all fields");
+      return;
     }
     try {
       const { error, data } = await supabase.auth.signUp({
@@ -29,66 +28,69 @@ const Signup = () => {
       });
 
       if (error) {
-        console.error("Signup error:", error);
+        alert(error.message);
+        return;
       }
-      if (data) {
-        console.log("data is:", data);
-      }
-
-      if (data.user && data.session) {
-        console.log("data sent to supabase:", data.user, data.session);
+      if (data?.user && data?.session) {
         logIn(data.user, data.session);
       }
     } catch (error) {
       alert("There is an error");
-      console.log("Error from signup page:", error);
     }
   };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={{ flex: 1 }}
     >
       <View className="flex-1 justify-center items-center bg-white px-6">
-        <View className="w-full max-w-md rounded-xl p-8">
-          <Text className="text-2xl font-bold text-center mb-6 text-green-600">
+        <View className="w-full max-w-md rounded-2xl bg-gray-50 shadow-md p-8">
+          <Text className="text-3xl font-extrabold text-center mb-6 text-green-600">
             Create Account
           </Text>
 
-          <Text className="text-base mb-2 text-gray-700">Email</Text>
+          <Text className="text-base font-medium mb-2 text-gray-700">
+            Email
+          </Text>
           <TextInput
-            className="bg-white border border-gray-300 p-3 rounded-lg mb-4 text-base"
+            className="bg-white border border-gray-300 p-4 rounded-xl mb-4 text-base"
             value={email}
             onChangeText={setEmail}
-            placeholder="Enter your email"
+            placeholder="you@example.com"
             keyboardType="email-address"
             autoCapitalize="none"
           />
 
-          <Text className="text-base mb-2 text-gray-700">Password</Text>
+          <Text className="text-base font-medium mb-2 text-gray-700">
+            Password
+          </Text>
           <TextInput
-            className="bg-white border border-gray-300 p-3 rounded-lg mb-6 text-base"
+            className="bg-white border border-gray-300 p-4 rounded-xl mb-6 text-base"
             value={password}
             onChangeText={setPassword}
-            placeholder="Enter your password"
+            placeholder="••••••••"
             secureTextEntry
             autoCapitalize="none"
           />
 
-          <Pressable
-            className="bg-green-600 py-3 rounded-lg"
-            onPress={onSignup}
-          >
-            <Text className="text-white text-center font-semibold text-lg">
-              Sign Up
-            </Text>
-          </Pressable>
-          <Text className="mt-10">
-            Already have an
-            <Pressable onPress={() => router.push("/(auth)/login")}>
-              <Text className="text-green-600"> account</Text>
+          <View className="gap-6">
+            <Pressable
+              className="bg-green-600 py-4 rounded-xl"
+              onPress={onSignup}
+            >
+              <Text className="text-white text-center font-bold text-lg">
+                Sign Up
+              </Text>
             </Pressable>
-          </Text>
+
+            <Text className="text-center text-sm text-gray-600">
+              Already have an account?
+              <Pressable onPress={() => router.push("/(auth)/login")}>
+                <Text className="text-green-600 font-semibold"> Log In</Text>
+              </Pressable>
+            </Text>
+          </View>
         </View>
       </View>
     </KeyboardAvoidingView>

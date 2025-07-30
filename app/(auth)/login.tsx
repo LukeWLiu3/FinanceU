@@ -28,21 +28,14 @@ const Login = () => {
       });
 
       if (error) {
-        console.error("Login error:", error);
         alert(error.message);
+        return;
       }
-      if (data) {
-        console.log("data is:", data);
-        console.log("User is", data.user);
-        console.log("Session is", data.session);
-      }
-      if (data.user && data.session) {
-        console.log("data sent to supabase:", data.user, data.session);
+      if (data?.user && data?.session) {
         logIn(data.user, data.session);
       }
     } catch (error) {
       alert("There is an error");
-      console.log("Error from login page:", error);
     }
   };
 
@@ -52,42 +45,52 @@ const Login = () => {
       style={{ flex: 1 }}
     >
       <View className="flex-1 justify-center items-center bg-white px-6">
-        <View className="w-full max-w-md rounded-xl p-8">
-          <Text className="text-2xl font-bold text-center mb-6 text-green-600">
-            Welcome Back!
+        <View className="w-full max-w-md rounded-2xl bg-gray-50 shadow-md p-8">
+          <Text className="text-3xl font-extrabold text-center mb-6 text-green-600">
+            Welcome Back
           </Text>
 
-          <Text className="text-base mb-2 text-gray-700">Email</Text>
+          <Text className="text-base font-medium mb-2 text-gray-700">
+            Email
+          </Text>
           <TextInput
-            className="bg-white border border-gray-300 p-3 rounded-lg mb-4 text-base"
+            className="bg-white border border-gray-300 p-4 rounded-xl mb-4 text-base"
             value={email}
             onChangeText={setEmail}
-            placeholder="Enter your email"
+            placeholder="you@example.com"
             keyboardType="email-address"
             autoCapitalize="none"
           />
 
-          <Text className="text-base mb-2 text-gray-700">Password</Text>
+          <Text className="text-base font-medium mb-2 text-gray-700">
+            Password
+          </Text>
           <TextInput
-            className="bg-white border border-gray-300 p-3 rounded-lg mb-6 text-base"
+            className="bg-white border border-gray-300 p-4 rounded-xl mb-6 text-base"
             value={password}
             onChangeText={setPassword}
-            placeholder="Enter your password"
+            placeholder="••••••••"
             secureTextEntry
             autoCapitalize="none"
           />
 
-          <Pressable className="bg-green-600 py-3 rounded-lg" onPress={onLogin}>
-            <Text className="text-white text-center font-semibold text-lg">
-              Login
-            </Text>
-          </Pressable>
-          <Text className="mt-10 text-center">
-            Don't have an account?
-            <Pressable onPress={() => router.push("/(auth)/signup")}>
-              <Text className="text-green-600"> Sign Up</Text>
+          <View className="gap-6">
+            <Pressable
+              className="bg-green-600 py-4 rounded-xl"
+              onPress={onLogin}
+            >
+              <Text className="text-white text-center font-bold text-lg">
+                Login
+              </Text>
             </Pressable>
-          </Text>
+
+            <Text className="text-center text-sm text-gray-600">
+              Don't have an account?
+              <Pressable onPress={() => router.push("/(auth)/signup")}>
+                <Text className="text-green-600 font-semibold"> Sign Up</Text>
+              </Pressable>
+            </Text>
+          </View>
         </View>
       </View>
     </KeyboardAvoidingView>

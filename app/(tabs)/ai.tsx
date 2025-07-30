@@ -87,7 +87,7 @@ export default function AskAIScreen() {
       style={{ flex: 1, backgroundColor: "#f8f9fa" }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <SafeAreaView className="flex-1 bg-gray-50">
+      <SafeAreaView className="flex-1 bg-green-50">
         {/* Header */}
         <View className="bg-white px-5 py-4 border-b border-gray-200">
           <View className="flex-row items-center gap-3">
@@ -95,9 +95,7 @@ export default function AskAIScreen() {
               <FontAwesome6 name="robot" size={20} color="white" />
             </View>
             <View>
-              <Text className="text-xl font-bold text-gray-800">
-                FinanceU
-              </Text>
+              <Text className="text-xl font-bold text-gray-800">FinanceU</Text>
               <Text className="text-sm text-gray-500">Financial Assistant</Text>
             </View>
           </View>
