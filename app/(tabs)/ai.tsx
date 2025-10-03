@@ -1,6 +1,5 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import Gemini from "gemini-ai";
 import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -21,7 +20,8 @@ interface Message {
 }
 
 export default function AskAIScreen() {
-  const gemini = new Gemini("AIzaSyA8h3qu-Fg8NKB-3JTYNbxXw2IJMwFcCpo");
+  const API_KEY = process.env.EXPO_PUBLIC_GEMINI_API_KEY!;
+  const MODEL = "gemini-2.0-flash"; // stable model name on v1
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -33,41 +33,55 @@ export default function AskAIScreen() {
   const handleSend = async () => {
     if (!message.trim()) return;
 
-    const userMessage: Message = {
-      text: message,
-      isUser: true,
-    };
+    const userMessage: Message = { text: message, isUser: true };
     setMessages((prev) => [...prev, userMessage]);
     setMessage("");
     setIsLoading(true);
 
-    // Scroll to bottom after sending message
     setTimeout(() => {
       scrollViewRef.current?.scrollToEnd({ animated: true });
     }, 100);
 
     try {
       const fullPrompt = `${SYSTEM_PROMPT}\n\nUser question: ${message}`;
-      const response = await gemini.ask(fullPrompt);
 
-      const botMessage: Message = {
-        text: response,
-        isUser: false,
-      };
+      const resp = await fetch(
+        `https://generativelanguage.googleapis.com/v1/models/${MODEL}:generateContent?key=${API_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+          }),
+        }
+      );
+
+      const data = await resp.json();
+      if (!resp.ok) {
+        // Bubble up useful info to your Alert/logs
+        throw new Error(data?.error?.message ?? JSON.stringify(data));
+      }
+
+      const text =
+        data?.candidates?.[0]?.content?.parts?.[0]?.text ??
+        "(No response text returned)";
+
+      const botMessage: Message = { text, isUser: false };
       setMessages((prev) => [...prev, botMessage]);
 
-      // Scroll to bottom after receiving response
       setTimeout(() => {
         scrollViewRef.current?.scrollToEnd({ animated: true });
       }, 100);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error getting AI response:", error);
-      Alert.alert("Error", "Failed to get response. Please try again.");
-      const errorMessage: Message = {
-        text: "Sorry, I'm having trouble connecting. Please try again later.",
-        isUser: false,
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      Alert.alert("Error", error?.message ?? "Failed to get response.");
+      setMessages((prev) => [
+        ...prev,
+        {
+          text: "Sorry, I'm having trouble connecting. Please try again later.",
+          isUser: false,
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
