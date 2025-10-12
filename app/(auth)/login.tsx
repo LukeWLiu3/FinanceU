@@ -36,6 +36,7 @@ const Login = () => {
         logIn(data.user, data.session);
       }
     } catch (error) {
+      console.error("Login error:", error);
       alert("There is an error");
     }
   };
@@ -93,7 +94,7 @@ const Login = () => {
               </Pressable>
 
               <Text className="text-center text-sm text-gray-600">
-                Don't have an account?
+                Don&apos;t have an account?
                 <Pressable onPress={() => router.push("/(auth)/signup")}>
                   <Text className="text-green-600 font-semibold"> Sign Up</Text>
                 </Pressable>
