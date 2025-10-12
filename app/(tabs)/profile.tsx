@@ -28,7 +28,11 @@ const Profile = () => {
       setLoading(false);
     };
     load();
+<<<<<<< HEAD
   }, []);
+=======
+  }, [fetchProfile]);
+>>>>>>> feature/discount-map
 
   const updateBudget = async () => {
     try {

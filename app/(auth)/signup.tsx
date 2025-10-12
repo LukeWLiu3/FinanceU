@@ -37,6 +37,10 @@ const Signup = () => {
         logIn(data.user, data.session);
       }
     } catch (error) {
+<<<<<<< HEAD
+=======
+      console.error("Signup error:", error);
+>>>>>>> feature/discount-map
       alert("There is an error");
     }
   };

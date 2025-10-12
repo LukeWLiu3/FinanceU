@@ -12,7 +12,12 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.Luke.FinanceU",
       "infoPlist": {
+<<<<<<< HEAD
         "ITSAppUsesNonExemptEncryption": false
+=======
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSLocationWhenInUseUsageDescription": "FinanceU uses your location to surface nearby deals and discounts."
+>>>>>>> feature/discount-map
       }
     },
     "android": {
@@ -21,7 +26,15 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
+<<<<<<< HEAD
       "package": "com.anonymous.FinanceU"
+=======
+      "package": "com.anonymous.FinanceU",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
+>>>>>>> feature/discount-map
     },
     "web": {
       "bundler": "metro",

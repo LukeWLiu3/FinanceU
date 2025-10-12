@@ -39,6 +39,7 @@ const CoursePreview = () => {
     },
   ];
 
+<<<<<<< HEAD
   const intermediateVideos = [
     {
       id: "vid6",
@@ -105,6 +106,8 @@ const CoursePreview = () => {
     },
   ];
 
+=======
+>>>>>>> feature/discount-map
   return (
     <View className="mb-6 px-4">
       <Text className="text-lg font-semibold mb-2">Courses</Text>

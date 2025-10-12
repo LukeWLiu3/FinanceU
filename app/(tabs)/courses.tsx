@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+<<<<<<< HEAD
 import {
   Dimensions,
   Image,
@@ -13,6 +14,11 @@ import YoutubePlayer from "react-native-youtube-iframe";
 
 const { width } = Dimensions.get("window");
 
+=======
+import { Image, ImageBackground, Modal, Pressable, ScrollView, Text, View } from "react-native";
+import YoutubePlayer from "react-native-youtube-iframe";
+
+>>>>>>> feature/discount-map
 const beginnerVideos = [
   {
     id: "vid1",

@@ -3,16 +3,28 @@ import { useAuthStore } from "@/utils/useAuth";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import Feather from "@expo/vector-icons/Feather";
+<<<<<<< HEAD
 import { useCallback, useEffect, useState } from "react";
 import {
   Alert,
   FlatList,
+=======
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Alert,
+  FlatList,
+  Keyboard,
+>>>>>>> feature/discount-map
   KeyboardAvoidingView,
   Modal,
   Platform,
   Pressable,
   Text,
   TextInput,
+<<<<<<< HEAD
+=======
+  TouchableWithoutFeedback,
+>>>>>>> feature/discount-map
   View,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -27,6 +39,10 @@ interface Expense {
 const Expenses = () => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
+<<<<<<< HEAD
+=======
+  const amountInputRef = useRef<TextInput | null>(null);
+>>>>>>> feature/discount-map
   const { user, profile } = useAuthStore();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [modelOpen, changeModelOpen] = useState(false);
@@ -292,6 +308,7 @@ const Expenses = () => {
             }}
           >
             <SafeAreaView className="flex-1 bg-white">
+<<<<<<< HEAD
               <View className="flex-1">
                 {/* Modal Header */}
                 <View className="px-6 py-4 border-b border-gray-200">
@@ -316,6 +333,40 @@ const Expenses = () => {
                 {/* Form */}
                 <View className="flex-1 px-6 py-6">
                   <View className="space-y-6">
+=======
+              <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : undefined}
+                className="flex-1"
+              >
+                <TouchableWithoutFeedback
+                  onPress={Keyboard.dismiss}
+                  accessible={false}
+                >
+                  <View className="flex-1">
+                    {/* Modal Header */}
+                    <View className="px-6 py-4 border-b border-gray-200">
+                      <View className="flex-row justify-between items-center">
+                        <Text className="text-xl font-bold text-gray-800">
+                          {editId ? "Edit Expense" : "Add Expense"}
+                        </Text>
+                        <Pressable
+                          onPress={() => {
+                            setEditId(null);
+                            setName("");
+                            setAmount("");
+                            changeModelOpen(false);
+                          }}
+                          className="p-2"
+                        >
+                          <AntDesign name="close" size={24} color="#6b7280" />
+                        </Pressable>
+                      </View>
+                    </View>
+
+                    {/* Form */}
+                    <View className="flex-1 px-6 py-6">
+                      <View className="space-y-6">
+>>>>>>> feature/discount-map
                     <View>
                       <Text className="text-base font-semibold text-gray-700 mb-2">
                         Expense Name
@@ -327,6 +378,12 @@ const Expenses = () => {
                         placeholder="e.g., Groceries, Coffee, Gas"
                         placeholderTextColor="#9ca3af"
                         autoCapitalize="words"
+<<<<<<< HEAD
+=======
+                        returnKeyType="next"
+                        blurOnSubmit={false}
+                        onSubmitEditing={() => amountInputRef.current?.focus()}
+>>>>>>> feature/discount-map
                       />
                     </View>
 
@@ -335,12 +392,17 @@ const Expenses = () => {
                         Amount ($)
                       </Text>
                       <TextInput
+<<<<<<< HEAD
+=======
+                        ref={amountInputRef}
+>>>>>>> feature/discount-map
                         className="bg-gray-50 border border-gray-300 p-4 rounded-xl text-base"
                         value={amount}
                         onChangeText={setAmount}
                         placeholder="0.00"
                         placeholderTextColor="#9ca3af"
                         keyboardType="decimal-pad"
+<<<<<<< HEAD
                       />
                     </View>
                   </View>
@@ -383,6 +445,55 @@ const Expenses = () => {
                   </View>
                 </View>
               </View>
+=======
+                        returnKeyType="done"
+                        blurOnSubmit
+                        onSubmitEditing={Keyboard.dismiss}
+                      />
+                    </View>
+                      </View>
+                    </View>
+
+                    {/* Action Buttons */}
+                    <View className="px-6 pb-6">
+                      <View className="flex-row space-x-3 gap-4">
+                        <Pressable
+                          className="flex-1 bg-gray-200 py-4 rounded-xl active:bg-gray-300"
+                          onPress={() => {
+                            setEditId(null);
+                            setName("");
+                            setAmount("");
+                            changeModelOpen(false);
+                          }}
+                          disabled={loading}
+                        >
+                          <Text className="text-gray-700 text-center font-semibold text-lg">
+                            Cancel
+                          </Text>
+                        </Pressable>
+                        <Pressable
+                          className={`flex-1 py-4 rounded-xl ${
+                            loading
+                              ? "bg-green-400"
+                              : "bg-green-600 active:bg-green-700"
+                          }`}
+                          onPress={onAddExpense}
+                          disabled={loading}
+                        >
+                          <Text className="text-white text-center font-semibold text-lg">
+                            {loading
+                              ? "Saving..."
+                              : editId
+                                ? "Save Changes"
+                                : "Add Expense"}
+                          </Text>
+                        </Pressable>
+                      </View>
+                    </View>
+                  </View>
+                </TouchableWithoutFeedback>
+              </KeyboardAvoidingView>
+>>>>>>> feature/discount-map
             </SafeAreaView>
           </Modal>
 
