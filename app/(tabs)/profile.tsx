@@ -16,9 +16,9 @@ import {
 
 const Profile = () => {
   const { logOut, profile, user, fetchProfile } = useAuthStore();
-  const [budget, setBudget] = useState(
-    profile?.monthly_budget?.toString() || ""
-  );
+
+  // Keep local input state separate and sync it when profile changes
+  const [budget, setBudget] = useState<string>("");
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -30,27 +30,45 @@ const Profile = () => {
     load();
   }, [fetchProfile]);
 
+  // When the profile's monthly_budget changes, reflect it in the input box
+  useEffect(() => {
+    setBudget(
+      profile?.monthly_budget != null ? String(profile.monthly_budget) : ""
+    );
+  }, [profile?.monthly_budget]);
+
   const updateBudget = async () => {
+    const cleaned = String(budget).replace(/[^\d.]/g, "");
+    const amount = parseFloat(cleaned);
+    if (Number.isNaN(amount) || amount < 0) {
+      alert("Please enter a valid non-negative number for your budget.");
+      return;
+    }
+
     try {
+      // // OPTION A: lowercase default table and PK=id
+      // const { error } = await supabase
+      //   .from("Profiles")
+      //   .update({ monthly_budget: amount })
+      //   .eq("id", user?.id);
+
       const { error } = await supabase
         .from("Profiles")
-        .update({
-          user_id: user?.id,
-          monthly_budget: budget,
-          full_name: profile?.full_name,
-          email: user?.email,
-        })
+        .update({ monthly_budget: amount })
         .eq("user_id", user?.id);
 
       if (error) {
-        alert("Failed to update budget");
-      } else {
-        alert("Budget updated successfully");
-        await fetchProfile();
-        setEditing(false);
+        console.error(error);
+        alert(`Failed to update budget: ${error.message}`);
+        return;
       }
-    } catch {
-      alert("There was an error updating your budget");
+
+      await fetchProfile();
+      setEditing(false);
+      alert("Budget updated successfully");
+    } catch (e: any) {
+      console.error(e);
+      alert(`There was an error updating your budget: ${e?.message ?? ""}`);
     }
   };
 
@@ -98,26 +116,26 @@ const Profile = () => {
                 <View className="border-b pb-2">
                   <Text className="text-xs text-gray-400 mb-1">Name</Text>
                   <Text className="text-base font-medium text-gray-800">
-                    {profile.full_name || "N/A"}
+                    {profile?.full_name || "N/A"}
                   </Text>
                 </View>
 
                 <View className="border-b pb-2">
                   <Text className="text-xs text-gray-400 mb-1">Email</Text>
                   <Text className="text-base font-medium text-gray-800">
-                    {profile.email || user?.email || "N/A"}
+                    {profile?.email || user?.email || "N/A"}
                   </Text>
                 </View>
 
                 <View className="border-b pb-2">
                   <Text className="text-xs text-gray-400 mb-1">
-                    Monthly Budget (click to edit)
+                    Monthly Budget (tap to edit)
                   </Text>
                   {!editing ? (
                     <Pressable onPress={() => setEditing(true)}>
                       <Text className="text-base font-medium text-gray-800">
                         $
-                        {profile.monthly_budget != null
+                        {profile?.monthly_budget != null
                           ? profile.monthly_budget
                           : "N/A"}
                       </Text>
@@ -129,11 +147,13 @@ const Profile = () => {
                       onChangeText={setBudget}
                       placeholder="$0.00"
                       keyboardType="numeric"
-                      onBlur={() => setEditing(false)}
+                      inputMode="decimal"
+                      // Do NOT auto-close on blur; user taps Save explicitly
                       autoFocus
                     />
                   )}
                 </View>
+
                 <View className="flex gap-3">
                   {editing && (
                     <Pressable
