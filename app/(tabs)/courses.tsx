@@ -1,17 +1,6 @@
 import React, { useState } from "react";
-import {
-  Dimensions,
-  Image,
-  ImageBackground,
-  Modal,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { Image, ImageBackground, Modal, Pressable, ScrollView, Text, View } from "react-native";
 import YoutubePlayer from "react-native-youtube-iframe";
-
-const { width } = Dimensions.get("window");
 
 const beginnerVideos = [
   {

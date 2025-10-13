@@ -37,6 +37,7 @@ const Signup = () => {
         logIn(data.user, data.session);
       }
     } catch (error) {
+      console.error("Signup error:", error);
       alert("There is an error");
     }
   };

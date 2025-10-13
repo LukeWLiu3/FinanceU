@@ -28,7 +28,7 @@ const Profile = () => {
       setLoading(false);
     };
     load();
-  }, []);
+  }, [fetchProfile]);
 
   const updateBudget = async () => {
     try {

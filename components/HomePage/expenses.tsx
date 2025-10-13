@@ -16,6 +16,10 @@ const BudgetProgress = () => {
         .select("cost")
         .eq("user_id", user?.id);
 
+      if (error) {
+        console.error("Expenses fetch error:", error);
+        return;
+      }
       if (data) {
         const sum = data.reduce((acc, curr) => acc + curr.cost, 0);
         setTotal(sum);
