@@ -13,6 +13,7 @@
     "ios": {
       "bundleIdentifier": "com.Luke.FinanceU",
       "buildNumber": "8",
+      "icon": "./assets/images/ios-light.png",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSLocationWhenInUseUsageDescription": "FinanceU uses your location to show nearby banks, ATMs, and local financial-literacy classes on the map while you are using the app. For example, we center the map on your location and fetch places within 2 km to help you find resources near you."
@@ -22,10 +23,11 @@
     "android": {
       "package": "com.anonymous.FinanceU",
       "edgeToEdgeEnabled": true,
-      "permissions": [
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION"
-      ]
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
     },
 
     "web": {

@@ -27,6 +27,7 @@ type AuthState = {
   saveProfile: (profileData: Partial<Profile>) => Promise<boolean>;
 
   fetchProfile: () => Promise<void>;
+  deleteAccount: () => Promise<boolean>;
 };
 
 // Custom storage that only stores essential data
@@ -219,6 +220,73 @@ export const useAuthStore = create(
           }
         } catch (error) {
           console.error("Profile fetch error:", error);
+        }
+      },
+
+      deleteAccount: async () => {
+        const { user } = get();
+        if (!user?.id) return false;
+
+        try {
+          // First delete the user's profile data
+          const { error: profileError } = await supabase
+            .from("Profiles")
+            .delete()
+            .eq("user_id", user.id);
+
+          if (profileError) {
+            console.error("Profile deletion error:", profileError);
+            return false;
+          }
+
+          // Delete any budget/expenses data if exists
+          const { error: budgetError } = await supabase
+            .from("budget")
+            .delete()
+            .eq("user_id", user.id);
+
+          // Don't fail if budget table doesn't exist or has no data
+          if (
+            budgetError &&
+            budgetError.code !== "42P01" &&
+            budgetError.code !== "PGRST116"
+          ) {
+            console.error("Budget deletion error:", budgetError);
+          }
+
+          // Clear local state first to trigger navigation change
+          set({
+            user: null,
+            session: null,
+            isLoggedIn: false,
+            hasCompletedProfile: false,
+            profile: null,
+          });
+
+          // Add a small delay to ensure state changes propagate
+          await new Promise((resolve) => setTimeout(resolve, 100));
+
+          // Then sign out the user from Supabase
+          // We do this after clearing state to avoid navigation conflicts
+          await supabase.auth.signOut();
+
+          // Note: For complete account deletion from Supabase Auth,
+          // you may need to implement a server-side function or use Supabase's
+          // admin API from your backend. For now, we've deleted all user data
+          // and signed them out.
+
+          return true;
+        } catch (error) {
+          console.error("Account deletion error:", error);
+          // Still clear state even if signOut fails
+          set({
+            user: null,
+            session: null,
+            isLoggedIn: false,
+            hasCompletedProfile: false,
+            profile: null,
+          });
+          return false;
         }
       },
     }),
