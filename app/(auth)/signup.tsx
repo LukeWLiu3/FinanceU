@@ -29,7 +29,26 @@ const Signup = () => {
       });
 
       if (error) {
-        alert(error.message);
+        if (error.message.includes("User already registered")) {
+          // Check if this is a deleted account
+          const { data: deletedAccount } = await supabase
+            .from("deleted_accounts")
+            .select("email")
+            .eq("email", email.toLowerCase())
+            .single();
+
+          if (deletedAccount) {
+            alert(
+              "❌ Can't Use This Email\n\nSomething happened you can't use this email address. It may be a removed account or already in use",
+            );
+          } else {
+            alert(
+              "❌ Can't Use This Email\n\nSomething happened you can't use this email address. It may be a removed account or already in use",
+            );
+          }
+        } else {
+          alert(error.message);
+        }
         return;
       }
 

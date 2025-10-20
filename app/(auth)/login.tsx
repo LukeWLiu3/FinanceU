@@ -33,6 +33,22 @@ const Login = () => {
         return;
       }
       if (data?.user && data?.session) {
+        // Check if user's profile exists (not deleted)
+        const { error: profileError } = await supabase
+          .from("Profiles")
+          .select("id")
+          .eq("user_id", data.user.id)
+          .single();
+
+        if (profileError && profileError.code === "PGRST116") {
+          // Profile doesn't exist, account was deleted
+          await supabase.auth.signOut();
+          alert(
+            "❌ Account Not Available\n\nThis email address is no longer available for use and cannot be accessed. Please use a different email address to create your account.",
+          );
+          return;
+        }
+
         logIn(data.user, data.session);
       }
     } catch (error) {

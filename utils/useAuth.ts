@@ -228,7 +228,21 @@ export const useAuthStore = create(
         if (!user?.id) return false;
 
         try {
-          // First delete the user's profile data
+          // First record the deleted account to prevent re-registration
+          const { error: deletedRecordError } = await supabase
+            .from("deleted_accounts")
+            .insert({
+              user_id: user.id,
+              email: user.email,
+              deleted_at: new Date().toISOString(),
+            });
+
+          if (deletedRecordError && deletedRecordError.code !== "42P01") {
+            console.error("Deleted account record error:", deletedRecordError);
+            // Continue with deletion even if this fails
+          }
+
+          // Delete the user's profile data
           const { error: profileError } = await supabase
             .from("Profiles")
             .delete()
@@ -263,17 +277,17 @@ export const useAuthStore = create(
             profile: null,
           });
 
-          // Add a small delay to ensure state changes propagate
-          await new Promise((resolve) => setTimeout(resolve, 100));
-
-          // Then sign out the user from Supabase
-          // We do this after clearing state to avoid navigation conflicts
+          // Sign out the user from Supabase Auth
           await supabase.auth.signOut();
 
-          // Note: For complete account deletion from Supabase Auth,
-          // you may need to implement a server-side function or use Supabase's
-          // admin API from your backend. For now, we've deleted all user data
-          // and signed them out.
+          // Additional cleanup: delete any remaining auth sessions
+          const { error: signOutError } = await supabase.auth.signOut({
+            scope: "global",
+          });
+
+          if (signOutError) {
+            console.error("Global sign out error:", signOutError);
+          }
 
           return true;
         } catch (error) {
