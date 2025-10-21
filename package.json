@@ -43,6 +43,7 @@
     "react-native": "0.81.4",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-gifted-chat": "^2.8.1",
+    "react-native-keyboard-controller": "^1.19.2",
     "react-native-maps": "1.20.1",
     "react-native-reanimated": "~4.1.1",
     "react-native-safe-area-context": "~5.6.0",
@@ -60,13 +61,8 @@
     "@types/react": "^19.1.10",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
+    "prettier": "^3.6.2",
     "typescript": "~5.9.2"
-  },
-  "overrides": {
-    "lightningcss": "1.30.1"
-  },
-  "resolutions": {
-    "lightningcss": "1.30.1"
   },
   "private": true
 }
